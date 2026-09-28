@@ -3,5 +3,5 @@ export interface Forecast {
   prediction: number; lowerBound: number; upperBound: number; baseline: number;
   observed?: number; model: string; modelVersion: string;
 }
-export interface ForecastHistory { date: string; forecast: number; actual: number; baseline: number; lowerBound?: number; upperBound?: number }
+export interface ForecastHistory { date: string; forecast: number; actual?: number; baseline: number; lowerBound?: number; upperBound?: number }
 export interface WeatherContext { temperature: number; humidity: number; windSpeed: number; pressure: number }

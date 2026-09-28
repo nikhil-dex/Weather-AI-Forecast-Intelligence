@@ -1,16 +1,18 @@
 import { Activity, Archive, BrainCircuit, CalendarDays, ChartNoAxesCombined, Database, Gauge, GitBranch, Wind } from "lucide-react";
 import { datasetMetadata, modelMetadata } from "@/data/mockMetadata";
 import { forecast } from "@/data/mockForecast";
+import { forecastScenarios } from "@/lib/forecast/forecast-data";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Panel } from "@/components/ui/Panel";
 
-const modelFacts = [["Model",modelMetadata.name],["Algorithm",modelMetadata.algorithm],["Version",modelMetadata.version],["Decision trees",String(modelMetadata.trees)],["Variables",String(modelMetadata.featureCount)],["Forecast horizon",modelMetadata.forecastHorizon]];
+const modelFacts = [["Model",modelMetadata.name],["Algorithm",modelMetadata.algorithm],["Version",modelMetadata.version],["Location","Delhi, India"],["Forecast target","Maximum temperature"],["Primary horizon",modelMetadata.forecastHorizon],["Available horizons",forecastScenarios.map((scenario)=>scenario.horizon).join(", ")],["Decision trees",String(modelMetadata.trees)],["Variables",String(modelMetadata.featureCount)]];
 const flow = [[Archive,"Observations"],[BrainCircuit,"Forecast model"],[ChartNoAxesCombined,"Prediction"],[Activity,"Uncertainty"]] as const;
 const flowIcons = [Activity,Gauge,Wind,CalendarDays,Database,GitBranch];
 
 export default function DataModelPage() { return <PageContainer title="Data & Model" description="Explore forecast data provenance, model configuration, and evaluation methodology.">
+  <div className="mb-5 rounded-xl border border-sky-300/[0.1] bg-sky-300/[0.035] p-4"><h2 className="text-xs font-semibold text-slate-200">Scenario and metadata scope</h2><p className="mt-1.5 text-[11px] leading-5 text-slate-400">Future values are selected from predefined scenarios. The model settings document the intended approach; no trained model is run to produce these values. The dataset metadata describes the reference coverage, while this application includes no raw observation files or ingestion process.</p></div>
   <div className="grid gap-5 xl:grid-cols-[1fr_.9fr]">
-    <Panel title="Data Provenance" subtitle="Coverage and scope of the historical weather dataset">
+    <Panel title="Data Provenance" subtitle="Reference period and metadata for historical weather observations">
       <dl className="grid gap-x-8 sm:grid-cols-2">{[["Source",datasetMetadata.source],["Region",datasetMetadata.geographicCoverage],["Coverage",datasetMetadata.historicalPeriod],["Resolution",datasetMetadata.resolution],["Records",datasetMetadata.records.toLocaleString()],["Units",datasetMetadata.units]].map(([label,value])=><div key={label} className="border-b border-white/[0.05] py-3 first:pt-0"><dt className="text-[10px] uppercase tracking-wider text-slate-400">{label}</dt><dd className="mt-1.5 text-[12px] text-slate-200">{value}</dd></div>)}</dl>
     </Panel>
     <Panel title="Model Configuration" subtitle="Versioned forecasting model">
