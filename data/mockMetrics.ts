@@ -1,3 +1,11 @@
 import type { EvaluationMetrics } from "@/types/evaluation";
-export const metrics: EvaluationMetrics = { model: { mae: 1.21, rmse: 1.63 }, baseline: { mae: 1.67, rmse: 2.08 }, coverage: 91.4 };
-export const calibrationData = [{ interval: "70%", observed: 68 }, { interval: "80%", observed: 79 }, { interval: "90%", observed: 91 }, { interval: "95%", observed: 93 }];
+const coverageCount = { covered: 320, total: 350 };
+export const metrics: EvaluationMetrics = {
+  model: { mae: 1.21, rmse: 1.63 }, baseline: { mae: 1.67, rmse: 2.08 },
+  coverage: Number((coverageCount.covered / coverageCount.total * 100).toFixed(1)),
+  evaluatedForecasts: 350, coverageCount
+};
+export const calibrationData = [
+  { interval: "70%", covered: 238, total: 350 }, { interval: "80%", covered: 277, total: 350 },
+  { interval: "90%", covered: coverageCount.covered, total: coverageCount.total }, { interval: "95%", covered: 326, total: 350 }
+].map(point => ({ ...point, observed: Number((point.covered / point.total * 100).toFixed(1)) }));
