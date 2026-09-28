@@ -8,7 +8,7 @@ The interface demonstrates how a forecast can be configured and reviewed. The di
 
 ## Features
 
-- Five predefined Delhi maximum-temperature target dates, from September 29 through October 3, 2026.
+- Five predefined Delhi maximum-temperature target dates, from tomorrow through five days ahead.
 - Forecast horizons from 24 to 120 hours, associated with their target dates.
 - Point forecasts, uncertainty ranges, and persistence-baseline comparisons.
 - Forecast and uncertainty charts with matching scenario values.
@@ -16,7 +16,7 @@ The interface demonstrates how a forecast can be configured and reviewed. The di
 - Historical evaluation summaries, including MAE, RMSE, baseline comparison, interval coverage, and representative failure cases.
 - Model configuration, feature groups, evaluation period, provenance, and limitations information.
 - Responsive navigation, labeled controls, keyboard focus indicators, and accessible generation status updates.
-- Deterministic scenario selection and a fixed reference date for reproducibility.
+- Deterministic scenario selection with the browser’s local date as the issue date.
 
 ## Forecast Workflow
 
@@ -54,25 +54,25 @@ Weather AI has four routes:
 3. Confirm the forecast horizon shown for that date.
 4. Click **Generate Forecast** and follow the brief progress stages.
 5. Review the predicted maximum temperature, expected range, uncertainty, and baseline.
-6. Reset to the default September 29, 2026 target with **Reset**.
+6. Reset to the tomorrow target with **Reset**.
 7. Open **Evaluation** to review historical forecast outcomes.
 8. Open **Data & Model** to inspect the documented setup, evaluation approach, and limitations.
 
-The selected scenario is shared across routes while navigating the application. A full page reload starts from the fixed default forecast again.
+The selected scenario is shared across routes while navigating the application. A full page reload starts from the tomorrow forecast again.
 
 ## Forecast Interface
 
-The default forecast is issued on September 28, 2026, for September 29, 2026, at a 24-hour horizon. Available target dates and corresponding horizons are:
+The default forecast is issued on the browser’s local calendar date for the following day, at a 24-hour horizon. Target dates are calculated from that date with local calendar arithmetic. The offsets and corresponding horizons are:
 
 | Target date | Horizon |
 | --- | ---: |
-| September 29, 2026 | 24 hours |
-| September 30, 2026 | 48 hours |
-| October 1, 2026 | 72 hours |
-| October 2, 2026 | 96 hours |
-| October 3, 2026 | 120 hours |
+| Tomorrow (+1 day) | 24 hours |
+| +2 days | 48 hours |
+| +3 days | 72 hours |
+| +4 days | 96 hours |
+| +5 days | 120 hours |
 
-The selected location is Delhi, India, and the target is maximum temperature. The issue date and target dates are explicit scenario values, not dates calculated from the computer’s current date.
+The selected location is Delhi, India, and the target is maximum temperature. Forecast values, uncertainty, and baselines stay fixed by offset; only the issue and target dates follow the browser’s local date. Calendar rollovers are handled by JavaScript `Date` operations.
 
 Generation uses a short staged client-side flow to select and display the matching predefined scenario. Its generated timestamp records when the button was used; it is not a weather observation timestamp.
 
@@ -187,7 +187,7 @@ types/                      Forecast, evaluation, and dataset contracts
 ## Limitations
 
 - The forecast scenarios focus on Delhi, India.
-- The issue date is fixed at September 28, 2026, and only the five listed target dates are available.
+- The issue date follows the browser’s local calendar date; only the next five target offsets are available.
 - Future values are predefined; no model is run to generate them.
 - The application does not retrieve current weather observations or provide a weather service.
 - Future scenarios have no observed outcomes or error values.
