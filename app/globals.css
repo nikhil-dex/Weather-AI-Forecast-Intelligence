@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root { color-scheme: dark; --canvas: #07111f; --panel: #0b1728; --card: #101d2e; --line: rgba(255,255,255,.08); }
+html { min-height: 100%; background: var(--canvas); }
+body { min-height: 100vh; background: radial-gradient(ellipse at 70% -20%, rgba(56,189,248,.08), transparent 36%), var(--canvas); color: #f8fafc; }
+::selection { background: rgba(56,189,248,.3); }
+* { scrollbar-color: #334155 #07111f; }
